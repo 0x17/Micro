@@ -1,17 +1,17 @@
 package org.andreschnabel.micro
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication
-import com.badlogic.gdx.{Gdx, ApplicationListener}
-import com.badlogic.gdx.audio.{Music, Sound}
-import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas, SpriteBatch}
-import com.badlogic.gdx.graphics.GL10
 import com.badlogic.gdx.Input.Buttons
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2
-import scala.collection.mutable
-import java.io.File
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.audio.{Music, Sound}
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication
+import com.badlogic.gdx.graphics.GL10
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas, SpriteBatch}
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.tools.imagepacker.TexturePacker2
 import com.badlogic.gdx.utils.Disposable
+import com.badlogic.gdx.{Gdx, ApplicationListener}
+import java.io.File
+import scala.collection.mutable
 
 /**
  * Minimalistic framework for 2D games built on top of libgdx.
