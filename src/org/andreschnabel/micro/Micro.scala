@@ -222,7 +222,7 @@ object Micro {
       val lastAtlasUpdate = new File(BASE_PATH + ATLAS_NAME + ".pack").lastModified()
       val lastPathUpdate = new File(BASE_PATH).lastModified()
       val imgFiles = listImageFiles(BASE_PATH)
-      if(forceRepack || imgFiles.exists(_.lastModified() > lastAtlasUpdate || lastPathUpdate > lastAtlasUpdate)) {
+      if(forceRepack || imgFiles.exists(_.lastModified() > lastAtlasUpdate) || lastPathUpdate > lastAtlasUpdate) {
         new File(BASE_PATH + ATLAS_NAME + ".png").delete()
         TexturePacker2.process(BASE_PATH, BASE_PATH, ATLAS_NAME + ".pack")
       }
