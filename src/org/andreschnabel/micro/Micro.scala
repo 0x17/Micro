@@ -41,8 +41,8 @@ object Micro {
   }
 
   /**
-   * Draw image w/ filename in data path on screen. Origin is bottom left.
-   * @param name name of image file (w/out extension) in data path.
+   * Draw image w/ filename in data name on screen. Origin is bottom left.
+   * @param name name of image file (w/out extension) in data name.
    * @param x horizontal offset rightwards from origin on the left.
    * @param y vertical offset upwards from origin on the bottom.
    * @param rz rotation around z-axis in degrees. Counter clockwise.
@@ -60,7 +60,7 @@ object Micro {
 
   /**
    * Get size of image with given name.
-   * @param name name of image file (w/out extension) in data path.
+   * @param name name of image file (w/out extension) in data name.
    * @return (width,height)-tuple.
    */
   def getImageDim(name : String) : (Int, Int) = {
@@ -76,7 +76,7 @@ object Micro {
 
   /**
    * Set a font for subsequent drawText calls.
-   * @param name name of font file in data path (w/out extension)
+   * @param name name of font file in data name (w/out extension)
    * @param size size for glyphs
    */
   def setFont(name : String, size : Int) {
@@ -99,20 +99,20 @@ object Micro {
   }
 
   /**
-   * Play sound w/ filename in data path.
-   * @param path name of sound file (w/out extension) in data path.
+   * Play sound w/ filename in data name.
+   * @param name name of sound file (w/out extension) in data name.
    */
-  def playSound(path : String) {
-    Utils.putOrKeep(sounds, path, () => Gdx.audio.newSound(Utils.loadRes(path, "wav"))).play()
+  def playSound(name : String) {
+    Utils.putOrKeep(sounds, name, () => Gdx.audio.newSound(Utils.loadRes(name, "wav"))).play()
   }
 
   /**
-   * Play song w/ filename in data path.
-   * @param path name of music file (w/out extension) in data path.
+   * Play song w/ filename in data name.
+   * @param name name of music file (w/out extension) in data name.
    * @param loop true iff. playback of song should be loop infinitely.
    */
-  def playSong(path : String, loop : Boolean = false) {
-    val song = Utils.putOrKeep(songs, path, () => Gdx.audio.newMusic(Utils.loadRes(path, "mp3")))
+  def playSong(name : String, loop : Boolean = false) {
+    val song = Utils.putOrKeep(songs, name, () => Gdx.audio.newMusic(Utils.loadRes(name, "mp3")))
     song.setLooping(loop)
     if(songPlaying != null) {
       songPlaying.stop()
@@ -122,11 +122,11 @@ object Micro {
   }
 
   /**
-   * Stop playback of song w/ filename in data path.
-   * @param path name of music file (w/out extension) in data path.
+   * Stop playback of song w/ filename in data name.
+   * @param name name of music file (w/out extension) in data name.
    */
-  def stopSong(path : String) {
-    songs(path).stop()
+  def stopSong(name : String) {
+    songs(name).stop()
   }
 
   /**
