@@ -5,15 +5,15 @@ import com.badlogic.gdx.audio.{Music, Sound}
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Pixmap.Format
+import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
-import com.badlogic.gdx.graphics.g2d.{PixmapPacker, BitmapFont, TextureAtlas, SpriteBatch}
+import com.badlogic.gdx.graphics.g2d.{PixmapPacker, BitmapFont, SpriteBatch}
 import com.badlogic.gdx.graphics.{Pixmap, GL10}
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.{Gdx, ApplicationListener}
 import java.io.File
 import scala.collection.mutable
-import com.badlogic.gdx.graphics.Texture.TextureFilter
 
 /**
  * Minimalistic framework for 2D games built on top of libgdx.
@@ -167,6 +167,8 @@ object Micro {
     new MouseState((Gdx.input.getX, scrH-Gdx.input.getY), lmb, mmb, rmb)
   }
 
+  def ticks() = System.currentTimeMillis()
+
   implicit def intPairToVec2(pair: (Int,Int)) = new Vector2(pair._1, pair._2)
   implicit def floatPairToVec2(pair: (Float,Float)) = new Vector2(pair._1, pair._2)
   implicit def vec2ToIntPair(vec : Vector2) = (vec.x.toInt, vec.y.toInt)
@@ -219,7 +221,7 @@ object Micro {
     }
 
     def atlasForDir(dir : File) = {
-      val packer = new PixmapPacker(512, 512, Format.RGBA8888, 2, true)
+      val packer = new PixmapPacker(1024, 1024, Format.RGBA8888, 2, true)
       listImageFiles(dir).foreach(f => packer.pack(Utils.filenameWithoutExt(f), new Pixmap(new FileHandle(f))))
       packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, true)
     }
