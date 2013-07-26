@@ -174,7 +174,7 @@ object Micro {
   //====================================================================================================================
 
   private lazy val sb = new SpriteBatch
-  private lazy val atlas = new TextureAtlas(Utils.loadRes(ATLAS_NAME, "pack"))
+  private lazy val atlas = new TextureAtlas(Utils.loadRes(AtlasName, "pack"))
 
   private val sounds = mutable.HashMap[String, Sound]()
   private val songs = mutable.HashMap[String, Music]()
@@ -182,8 +182,8 @@ object Micro {
 
   private var scrDims = (0,0)
 
-  private val ATLAS_NAME = "atlas"
-  private val DATA_PATH = "data/"
+  private val AtlasName = "atlas"
+  private val DataPath = "data/"
 
   private def dispose() {
     sounds.values.foreach(Utils.safeDispose)
@@ -217,12 +217,12 @@ object Micro {
   private object Utils {
     def updateAtlas(forceRepack : Boolean = false) {
       val BASE_PATH = "src/data/"
-      val lastAtlasUpdate = new File(BASE_PATH + ATLAS_NAME + ".pack").lastModified()
+      val lastAtlasUpdate = new File(BASE_PATH + AtlasName + ".pack").lastModified()
       val lastPathUpdate = new File(BASE_PATH).lastModified()
       val imgFiles = listImageFiles(BASE_PATH)
       if(forceRepack || imgFiles.exists(_.lastModified() > lastAtlasUpdate) || lastPathUpdate > lastAtlasUpdate) {
-        new File(BASE_PATH + ATLAS_NAME + ".png").delete()
-        TexturePacker2.process(BASE_PATH, BASE_PATH, ATLAS_NAME + ".pack")
+        new File(BASE_PATH + AtlasName + ".png").delete()
+        TexturePacker2.process(BASE_PATH, BASE_PATH, AtlasName + ".pack")
       }
     }
 
@@ -230,7 +230,7 @@ object Micro {
       new File(path).listFiles().filter(_.getName.endsWith(".png"))
     }
 
-    def loadRes(path : String, ext : String) = Gdx.files.internal(DATA_PATH + path + "." + ext)
+    def loadRes(path : String, ext : String) = Gdx.files.internal(DataPath + path + "." + ext)
 
     def putOrKeep[T](m : mutable.HashMap[String, T], key : String, genFunc : () => T) : T = {
       if(!m.contains(key)) {

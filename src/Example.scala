@@ -3,36 +3,36 @@ import org.andreschnabel.micro.Micro._
 import scala.collection.immutable.HashMap
 
 object Example {
-  val IMG_NAME = "alien"
-  val SND_NAME = "coin"
-  val SONG_NAME = "loop"
-  val FONT_NAME = "font"
+  val ImgName = "alien"
+  val SndName = "coin"
+  val SongName = "loop"
+  val FontName = "font"
+  val MoveSpeed = 5.0f
 
-  var (imgPos,imgDim) = ((0.0f, 0.0f),(0,0))
-  val MOV_SPEED = 5.0f
+  lazy val imgDim = getImageDim(ImgName)
+  var imgPos = (0.0f, 0.0f)
 
   val keyActions = HashMap(
     Keys.ESCAPE -> (() => quit()),
-    Keys.S -> (() => playSound(SND_NAME)),
-    Keys.M -> (() => playSong(SONG_NAME)),
-    Keys.N -> (() => stopSong(SONG_NAME)),
-    Keys.LEFT -> (() => imgPos=(imgPos.x-MOV_SPEED, imgPos.y)),
-    Keys.RIGHT -> (() => imgPos=(imgPos.x+MOV_SPEED, imgPos.y)),
-    Keys.UP -> (() => imgPos=(imgPos.x, imgPos.y+MOV_SPEED)),
-    Keys.DOWN -> (() => imgPos=(imgPos.x, imgPos.y-MOV_SPEED)))
+    Keys.S -> (() => playSound(SndName)),
+    Keys.M -> (() => playSong(SongName)),
+    Keys.N -> (() => stopSong(SongName)),
+    Keys.LEFT -> (() => imgPos=(imgPos.x-MoveSpeed, imgPos.y)),
+    Keys.RIGHT -> (() => imgPos=(imgPos.x+MoveSpeed, imgPos.y)),
+    Keys.UP -> (() => imgPos=(imgPos.x, imgPos.y+MoveSpeed)),
+    Keys.DOWN -> (() => imgPos=(imgPos.x, imgPos.y-MoveSpeed)))
 
   def main(args : Array[String]) {
     init("Micro Example", (800, 480), initCallback, drawCallback)
   }
 
   def initCallback() {
-    imgDim = getImageDim(IMG_NAME)
-    setFont(FONT_NAME, 20)
+    setFont(FontName, 20)
   }
 
   def drawCallback(delta : Float) {
     processInput()
-    drawImage(IMG_NAME, imgPos.x, imgPos.y)
+    drawImage(ImgName, imgPos.x, imgPos.y)
     drawText("This is a minimal framework", 100, 100)
 
     def processInput() {
