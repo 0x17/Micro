@@ -173,8 +173,8 @@ object Micro {
 
   //====================================================================================================================
 
-  private var sb : SpriteBatch = _
-  private var atlas : TextureAtlas = _
+  private lazy val sb = new SpriteBatch
+  private lazy val atlas = new TextureAtlas(Utils.loadRes(ATLAS_NAME, "pack"))
 
   private val sounds = mutable.HashMap[String, Sound]()
   private val songs = mutable.HashMap[String, Music]()
@@ -195,9 +195,7 @@ object Micro {
 
   private class AppListener(initCallback : () => Unit, drawCallback : (Float) => Unit) extends ApplicationListener {
     def create() {
-      sb = new SpriteBatch
       Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
-      atlas = new TextureAtlas(Utils.loadRes(ATLAS_NAME, "pack"))
       initCallback()
     }
     def resize(width: Int, height: Int) {
