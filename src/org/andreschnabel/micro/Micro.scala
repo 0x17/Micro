@@ -73,8 +73,6 @@ object Micro {
     }
   }
 
-  var font : BitmapFont = _
-
   /**
    * Set a font for subsequent drawText calls.
    * @param name name of font file in data name (w/out extension)
@@ -178,6 +176,8 @@ object Micro {
 
   private lazy val sb = new SpriteBatch
   private lazy val atlas = Utils.atlasForDir(new File("src/data/"))
+
+  private var font : BitmapFont = _
 
   private val sounds = mutable.HashMap[String, Sound]()
   private val songs = mutable.HashMap[String, Music]()

@@ -27,7 +27,7 @@ object DuelExample {
 
   def initCallback() {
     setFont("font", 30)
-    playSong("loop", true)
+    playSong("loop", loop = true)
   }
 
   def drawCallback(delta : Float) {
