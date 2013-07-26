@@ -17,8 +17,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-library" level="application" />
     <orderEntry type="library" name="gdx-freetype" level="application" />
-    <orderEntry type="library" name="gdx-tools" level="application" />
     <orderEntry type="library" name="gdx" level="application" />
+    <orderEntry type="library" name="scalatest" level="application" />
   </component>
 </module>
 

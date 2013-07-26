@@ -3,15 +3,17 @@ package org.andreschnabel.micro
 import com.badlogic.gdx.Input.Buttons
 import com.badlogic.gdx.audio.{Music, Sound}
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
-import com.badlogic.gdx.graphics.GL10
+import com.badlogic.gdx.files.FileHandle
+import com.badlogic.gdx.graphics.Pixmap.Format
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
-import com.badlogic.gdx.graphics.g2d.{BitmapFont, TextureAtlas, SpriteBatch}
+import com.badlogic.gdx.graphics.g2d.{PixmapPacker, BitmapFont, TextureAtlas, SpriteBatch}
+import com.badlogic.gdx.graphics.{Pixmap, GL10}
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.{Gdx, ApplicationListener}
 import java.io.File
 import scala.collection.mutable
+import com.badlogic.gdx.graphics.Texture.TextureFilter
 
 /**
  * Minimalistic framework for 2D games built on top of libgdx.
@@ -36,7 +38,6 @@ object Micro {
    */
   def init(caption : String, scrSize : (Int,Int), initCallback : () => Unit, drawCallback : (Float) => Unit) {
     scrDims = scrSize
-    Utils.updateAtlas()
     new LwjglApplication(new AppListener(initCallback, drawCallback), caption, scrW, scrH, false)
   }
 
@@ -174,16 +175,13 @@ object Micro {
   //====================================================================================================================
 
   private lazy val sb = new SpriteBatch
-  private lazy val atlas = new TextureAtlas(Utils.loadRes(AtlasName, "pack"))
+  private lazy val atlas = Utils.atlasForDir(new File("src/data/"))
 
   private val sounds = mutable.HashMap[String, Sound]()
   private val songs = mutable.HashMap[String, Music]()
   private var songPlaying : Music = _
 
   private var scrDims = (0,0)
-
-  private val AtlasName = "atlas"
-  private val DataPath = "data/"
 
   private def dispose() {
     sounds.values.foreach(Utils.safeDispose)
@@ -214,23 +212,23 @@ object Micro {
     }
   }
 
-  private object Utils {
-    def updateAtlas(forceRepack : Boolean = false) {
-      val BASE_PATH = "src/data/"
-      val lastAtlasUpdate = new File(BASE_PATH + AtlasName + ".pack").lastModified()
-      val lastPathUpdate = new File(BASE_PATH).lastModified()
-      val imgFiles = listImageFiles(BASE_PATH)
-      if(forceRepack || imgFiles.exists(_.lastModified() > lastAtlasUpdate) || lastPathUpdate > lastAtlasUpdate) {
-        new File(BASE_PATH + AtlasName + ".png").delete()
-        TexturePacker2.process(BASE_PATH, BASE_PATH, AtlasName + ".pack")
-      }
+  object Utils {
+    def filenameWithoutExt(f : File) = {
+      val parts = f.getName.split("\\.")
+      parts(parts.length - 2)
     }
 
-    def listImageFiles(path: String) : Array[File] = {
-      new File(path).listFiles().filter(_.getName.endsWith(".png"))
+    def atlasForDir(dir : File) = {
+      val packer = new PixmapPacker(512, 512, Format.RGBA8888, 2, true)
+      listImageFiles(dir).foreach(f => packer.pack(Utils.filenameWithoutExt(f), new Pixmap(new FileHandle(f))))
+      packer.generateTextureAtlas(TextureFilter.Linear, TextureFilter.Linear, true)
     }
 
-    def loadRes(path : String, ext : String) = Gdx.files.internal(DataPath + path + "." + ext)
+    def listImageFiles(dir: File) : Array[File] = {
+      dir.listFiles().filter(f => f.getName.endsWith(".png"))
+    }
+
+    def loadRes(path : String, ext : String) = Gdx.files.internal("data/" + path + "." + ext)
 
     def putOrKeep[T](m : mutable.HashMap[String, T], key : String, genFunc : () => T) : T = {
       if(!m.contains(key)) {

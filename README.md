@@ -7,6 +7,11 @@ All assets must be placed in "data/" sub folder by convention.
 * Music should be ".mp3"-files.
 * Fonts should be ".ttf"-files.
 
+## Dependencies
+* gdx
+* gdx-freetype (extension)
+* scalatest
+
 ## Globals
 scrW - screen width
 
